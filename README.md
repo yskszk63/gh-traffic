@@ -2,6 +2,8 @@
 
 gh extension for GitHub repositories traffic viewer.
 
+![demo](assets/demo.png)
+
 ## Install
 
 ```
@@ -9,8 +11,6 @@ gh extension install yskszk63/traffic
 ```
 
 ## Usage
-
-![demo](assets/demo.png)
 
 ```
 gh traffic
