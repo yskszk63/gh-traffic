@@ -7,7 +7,7 @@ gh extension for GitHub repositories traffic viewer.
 ## Install
 
 ```
-gh extension install yskszk63/traffic
+gh extension install yskszk63/gh-traffic
 ```
 
 ## Usage
