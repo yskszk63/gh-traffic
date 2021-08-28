@@ -10,7 +10,7 @@ gh extension install yskszk63/traffic
 
 ## Usage
 
-![demo](demo.png)
+![demo](assets/demo.png)
 
 ```
 gh traffic
