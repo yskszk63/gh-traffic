@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+! gh deno --ping > /dev/null 2>&1 && {
+  echo "Could not found 'gh-deno' your system."
+  if [ -t 0 ]; then
+    read -p "Can I download and install gh-deno? [y/N]: " yn
+    case "$yn" in
+      [yY]*) ;;
+      *) exit 1;;
+    esac
+    gh extension install yskszk63/gh-deno
+  else
+    exit 1
+  fi
+}
+exec gh deno 'https://cdn.jsdelivr.net/gh/yskszk63/gh-traffic/mod.ts'
