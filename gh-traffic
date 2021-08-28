@@ -14,4 +14,4 @@ set -e
     exit 1
   fi
 }
-exec gh deno --allow-run 'https://cdn.jsdelivr.net/gh/yskszk63/gh-traffic/mod.ts'
+exec gh deno --allow-run "$(dirname $0)/mod.ts"
