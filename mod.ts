@@ -1,5 +1,5 @@
-import { readLines } from "https://deno.land/std@0.106.0/io/mod.ts";
-import * as tty from "https://deno.land/x/tty@0.1.2/mod.ts";
+import { readLines } from "https://deno.land/std@0.107.0/io/mod.ts";
+import * as tty from "https://deno.land/x/tty@0.1.3/mod.ts";
 
 const isatty = Deno.isatty(Deno.stdout.rid);
 
