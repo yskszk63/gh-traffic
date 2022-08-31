@@ -33,7 +33,10 @@ async function* repos(): AsyncGenerator<string, void, void> {
   const query = `query($endCursor: String) {
         viewer {
             repositories(first: 10, after: $endCursor) {
-                nodes { nameWithOwner }
+                nodes {
+                  nameWithOwner
+                  viewerCanUpdateTopics
+                }
                 pageInfo {
                     hasNextPage
                     endCursor
@@ -42,7 +45,7 @@ async function* repos(): AsyncGenerator<string, void, void> {
         }
     }`;
 
-  const filter = ".data.viewer.repositories.nodes[].nameWithOwner";
+  const filter = ".data.viewer.repositories.nodes[]";
 
   const proc = Deno.run({
     cmd: [
@@ -58,8 +61,28 @@ async function* repos(): AsyncGenerator<string, void, void> {
     stdout: "piped",
   });
 
+  function assertItem(
+    data: unknown,
+  ): asserts data is { nameWithOwner: string; viewerCanUpdateTopics: boolean } {
+    const nameWithOwner = (data as Record<string, unknown>)["nameWithOwner"];
+    const viewerCanUpdateTopics =
+      (data as Record<string, unknown>)["viewerCanUpdateTopics"];
+    if (
+      typeof nameWithOwner !== "string" ||
+      typeof viewerCanUpdateTopics !== "boolean"
+    ) {
+      throw new Error();
+    }
+  }
+
   for await (const line of readLines(proc.stdout)) {
-    yield line;
+    const data = JSON.parse(line);
+    assertItem(data);
+    const { nameWithOwner, viewerCanUpdateTopics } = data;
+    if (!viewerCanUpdateTopics) {
+      continue;
+    }
+    yield nameWithOwner;
   }
 }
 
