@@ -86,7 +86,9 @@ async function* repos(): AsyncGenerator<string, void, void> {
   }
 }
 
-async function views(name: string): Promise<any> {
+async function views(
+  name: string,
+): Promise<{ count: number; uniques: number }> {
   const proc = Deno.run({
     cmd: ["gh", "api", `repos/${name}/traffic/views`],
     stdout: "piped",
@@ -102,5 +104,10 @@ async function views(name: string): Promise<any> {
   }
 
   const c = JSON.parse(data.join(""));
+  const count = (c as Record<string, unknown>)["count"];
+  const uniques = (c as Record<string, unknown>)["uniques"];
+  if (typeof count !== "number" || typeof uniques !== "number") {
+    throw new Error();
+  }
   return c;
 }
